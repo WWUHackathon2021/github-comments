@@ -1,6 +1,9 @@
 import express from "express";
+import { fold } from "fp-ts/lib/Option";
+import makeRepositoryBadge from "../../badge";
+import CommentAPI from "../spec/CommentAPI";
 
-export default function comments(): express.Router {
+export default function comments(commentAPI: CommentAPI): express.Router {
   const router = express.Router();
 
   // Get all comments for a given repo
@@ -16,6 +19,19 @@ export default function comments(): express.Router {
   // Create a new comment on a repository
   router.post("/:repo/comment", (req, res) => {
     res.json({ result: "Creating new comment on " + req.params.repo });
+  });
+
+  router.get("/:repo/badge", async (req, res) => {
+    const commentCounts = await commentAPI.getCommentCount(req.params.repo);
+    fold(
+      () => {
+        res.sendStatus(500);
+      },
+      (result) => {
+        res.contentType("svg");
+        res.send(result);
+      }
+    )(makeRepositoryBadge(commentCounts));
   });
 
   return router;
