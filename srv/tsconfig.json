@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "build",
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "strict": true,
+    "target": "es5",
+    "esModuleInterop": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "lib": ["ES2015", "DOM", "ESNext"]
+  },
+  "include": ["src/**/*.ts", "config/**/*"],
+  "exclude": ["node_modules"]
+}
