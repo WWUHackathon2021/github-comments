@@ -29,7 +29,6 @@ export default function comments(commentAPI: CommentAPI): express.Router {
     // TODO security is bad here
     const resultComment = await commentAPI.modifyComment(body.id, {
       content: body.content,
-      parent: body.parent,
     });
     res.json(resultComment);
   });

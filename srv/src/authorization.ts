@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "express-jwt";
 import jwks from "jwks-rsa";
+import { defaultUser } from "./api/types/Profile";
 
 export default function jwtAuthorization(): express.RequestHandler {
   return jwt({
@@ -19,6 +20,7 @@ export default function jwtAuthorization(): express.RequestHandler {
 // TODO add in profile information
 export function laxAuthentication(): express.RequestHandler {
   return (req, res, next) => {
+    (req as any).profile = defaultUser;
     next();
   };
 }

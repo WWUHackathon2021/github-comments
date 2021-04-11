@@ -5,6 +5,7 @@ import { exit } from "process";
 import { Sequelize } from "sequelize";
 import ModelCommentAPI from "./api/ModelCommentAPI";
 import comments from "./api/routes/comments";
+import { laxAuthentication } from "./authorization";
 import { defineCommentModel } from "./models/CommentModel";
 
 async function main() {
@@ -29,7 +30,7 @@ async function main() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use("/comments", comments(new ModelCommentAPI(commentModel)));
+  app.use("/comments", laxAuthentication(), comments(new ModelCommentAPI(commentModel)));
 
   app.listen(LISTEN_PORT, () => {
     console.log(`Listening on port ${LISTEN_PORT}`);
